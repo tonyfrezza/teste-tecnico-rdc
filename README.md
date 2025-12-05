@@ -114,12 +114,6 @@ No terminal do container ou local:
 php artisan migrate
 ```
 
-Para popular dados de teste (opcional):
-
-```bash
-php artisan db:seed
-```
-
 ---
 
 ## Execução da API

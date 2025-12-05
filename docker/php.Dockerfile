@@ -20,15 +20,15 @@ WORKDIR /var/www
 
 COPY --chown=www-data:www-data . /var/www
 
-RUN mkdir -p /var/www/storage /var/www/storage/logs /var/www/bootstrap/cache /var/www/public/uploads
+RUN mkdir -p /var/www/codigo/storage /var/www/codigo/storage/logs /var/www/codigo/bootstrap/cache /var/www/codigo/public/uploads
 
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads
+RUN chown -R www-data:www-data /var/www/codigo/storage /var/www/codigo/bootstrap/cache /var/www/codigo/public/uploads
 
-RUN find /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads -type d -exec chmod 775 {} \; \
-    && find /var/www/storage /var/www/bootstrap/cache /var/www/public/uploads -type f -exec chmod 664 {} \;
+RUN find /var/www/codigo/storage /var/www/codigo/bootstrap/cache /var/www/codigo/public/uploads -type d -exec chmod 775 {} \; \
+    && find /var/www/codigo/storage /var/www/codigo/bootstrap/cache /var/www/codigo/public/uploads -type f -exec chmod 664 {} \;
 
 ENV APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data \
     APACHE_DOCUMENT_ROOT=/var/www/ \
     ABSOLUTE_APACHE_DOCUMENT_ROOT=/var/www
-ENTRYPOINT ["/bin/bash","-c","chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache && apache2-foreground"]
+ENTRYPOINT ["/bin/bash","-c","chown -R www-data:www-data /var/www/codigo/storage /var/www/codigo/bootstrap/cache && apache2-foreground"]
