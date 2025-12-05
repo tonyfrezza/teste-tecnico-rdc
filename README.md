@@ -130,10 +130,6 @@ A API estará disponível em [http://localhost:8080](http://localhost:8080) (ou 
 
 ## Testando os Endpoints
 
-### Documentação Interativa
-
-Acesse: [http://localhost:8080/api/documentation](http://localhost:8080/api/documentation)
-
 ### Exemplos de Endpoints
 
 - **Criar pedido**
