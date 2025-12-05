@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+
+  rdc-laravel:
+    build:
+      dockerfile: php.Dockerfile
+    container_name: rdc-laravel
+    volumes:
+      - ../:/var/www
+      - ./apache2/sites-available/:/etc/apache2/sites-available/
+      - ./sistema/etc/supervisor/:/etc/supervisor/conf.d/
+    ports:
+      - "8080:80"
+    networks:
+      rdc:
+        ipv4_address: 174.0.0.2
+        aliases:
+          - laravel-rdc
+    restart: always
+
+  rdc-mysql:
+    image: mysql:8.0
+    container_name: rdc-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root123}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-rdc}"
+      MYSQL_USER: "${MYSQL_USER:-rdc}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-MySql102030@}"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./db/mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      rdc:
+        ipv4_address: 174.0.0.3
+        aliases:
+          - rdc-mysql
+    restart: always
+
+  rdc-redis:
+    image: redis:7
+    container_name: rdc-redis
+    command: redis-server --requirepass Redis2019!
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 3
+    networks:
+      rdc:
+        ipv4_address: 174.0.0.4
+        aliases:
+          - rdc-redis
+    restart: always
+
+networks:
+  rdc:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 174.0.0.0/24
+          gateway: 174.0.0.1
